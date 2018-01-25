@@ -4,6 +4,10 @@ import time
 #initialize global variables
 startTenthSec = millis() % 1000 #millisecond counter
 
+#init the tens of minute digit
+tenMinInc = 0
+tenMin = 0
+
 #init the minute digit
 minInc = 0
 oneMin = 0
@@ -18,7 +22,7 @@ oneSec = 0
 #end of global variables
 
 def setup():
-    size(1500, 600)
+    size(1800, 600)
     global tenInc
     global oneSec
     tenInc = oneSec = 0
@@ -228,11 +232,13 @@ def drawDigit(xOrigin, yOrigin, size, digit):
 
 def draw():
     background(0)
-    xOrigin = 500
+    xOrigin = 750
     yOrigin = 550
     size = 20
     i = 0
     #specifying the following variables are global
+    global tenMinInc
+    global tenMin
     global minInc
     global oneMin
     global tenSecInc
@@ -265,12 +271,20 @@ def draw():
      
     #increment minutes
     if tenSec == 6 and minInc == 0:
-        oneSec = 0
         tenSec = 0
         oneMin = oneMin + 1
         minInc = 1
     elif tenSec != 6:
         minInc = 0
+        
+    #increment tens of minutes
+    if oneMin == 10 and tenMinInc == 0:
+        oneMin = 0
+        tenMin = tenMin + 1
+        tenMinInc = 1
+    elif tenSec != 10:
+        tenMinInc = 0
+        
         
     drawDigit( xOrigin - 700, yOrigin, size, tenMin )
     drawDigit( xOrigin - 400, yOrigin, size, oneMin )
