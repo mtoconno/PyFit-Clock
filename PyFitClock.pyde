@@ -1,10 +1,8 @@
 import math
 import time
 
-#initialize start times to zero clock
-
-#init the millisecond counter
-startTenthSec = millis() % 1000
+#initialize global variables
+startTenthSec = millis() % 1000 #millisecond counter
 
 #init the minute digit
 minInc = 0
@@ -17,8 +15,7 @@ tenSec = 0
 #init the seconds digit
 secInc = 0
 oneSec = 0
-
-
+#end of global variables
 
 def setup():
     size(1500, 600)
@@ -169,7 +166,6 @@ def drawSecondsSeperator(xOrigin, yOrigin, size):
 
 
 def drawDigit(xOrigin, yOrigin, size, digit):
-    
     if digit == 0:
         drawA(xOrigin, yOrigin, size)
         drawB(xOrigin, yOrigin, size)
@@ -236,6 +232,7 @@ def draw():
     yOrigin = 550
     size = 20
     i = 0
+    #specifying the following variables are global
     global minInc
     global oneMin
     global tenSecInc
@@ -243,7 +240,7 @@ def draw():
     global secInc
     global oneSec
  
-    #Zero out all the values so clock starts at 00:00.0  
+    #Start the tenth of seconds counter
     tenthSec =  millis() % 1000
     # tenthSec = ( 10 + startTenthSec - tenthSec ) % 10 #countdown
     tenthSec = ( 1000 + tenthSec - startTenthSec)
@@ -275,10 +272,10 @@ def draw():
     elif tenSec != 6:
         minInc = 0
         
-    
-    drawDigit(xOrigin - 400, yOrigin, size, oneMin)
-    drawSecondsSeperator(xOrigin - 50, yOrigin, size * 2)
-    drawDigit(xOrigin, yOrigin, size, tenSec )
-    drawDigit(xOrigin + 300, yOrigin, size, oneSec )
-    drawPoint(xOrigin + 600, yOrigin, size * 2)
-    drawDigit(xOrigin + 650, yOrigin, size, tenthSec )
+    drawDigit( xOrigin - 700, yOrigin, size, tenMin )
+    drawDigit( xOrigin - 400, yOrigin, size, oneMin )
+    drawSecondsSeperator( xOrigin - 50, yOrigin, size * 2 )
+    drawDigit( xOrigin, yOrigin, size, tenSec )
+    drawDigit( xOrigin + 300, yOrigin, size, oneSec )
+    drawPoint( xOrigin + 600, yOrigin, size * 2 )
+    drawDigit( xOrigin + 650, yOrigin, size, tenthSec )
