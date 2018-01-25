@@ -1,7 +1,30 @@
 import math
+import time
+
+#initialize start times to zero clock
+
+#init the millisecond counter
+startTenthSec = millis() % 1000
+
+#init the minute digit
+minInc = 0
+oneMin = 0
+
+#init the tens of seconds digit
+tenSecInc = 0
+tenSec = 0
+
+#init the seconds digit
+secInc = 0
+oneSec = 0
+
+
 
 def setup():
-    size(1500, 1500)
+    size(1500, 600)
+    global tenInc
+    global oneSec
+    tenInc = oneSec = 0
     
 def returnOffset( XorY, size, degrees ):
     if XorY == "x":
@@ -78,17 +101,11 @@ def drawVSegment( x, y, size ):
     vertex(x + x2Offset +hOffset, y - y2Offset)
     vertex(x + x2Offset, y - y2Offset)
     endShape(CLOSE)
-    
 
-
-
-def draw():
-    #draw segment D
-    xOrigin = 200
-    yOrigin = 1300
-    size = 50
+def drawD(xOrigin, yOrigin, size):    
     drawHSegment( xOrigin, yOrigin, size )
-
+    
+def drawE(xOrigin, yOrigin, size): 
     #draw segment E
     pushMatrix()
     translate(xOrigin, yOrigin)
@@ -96,6 +113,7 @@ def draw():
     drawVSegment( 0, 0, size )
     popMatrix()
 
+def drawC(xOrigin, yOrigin, size):
     #draw segment C
     pushMatrix()
     translate( xOrigin + translateOffset("x", xOrigin, size ), yOrigin )
@@ -103,13 +121,15 @@ def draw():
     drawVSegment( 0, 0, size )
     popMatrix()
     
+def drawG(xOrigin, yOrigin, size):    
     #draw segment G
     pushMatrix()
     translate( xOrigin + angularOffset( size ), 
               yOrigin - translateOffset( "y", yOrigin, size ) )
     drawHSegment( 0, 0, size )
     popMatrix()
-    
+
+def drawF(xOrigin, yOrigin, size):    
     #draw segment F
     pushMatrix()
     translate( xOrigin + angularOffset( size ), 
@@ -117,7 +137,8 @@ def draw():
     rotate( radians( -82 ) ) #rotate 10 degrees
     drawVSegment( 0, 0, size )
     popMatrix()
-    
+ 
+def drawB(xOrigin, yOrigin, size):
     #draw segment B
     pushMatrix()
     translate( xOrigin + translateOffset("x", xOrigin, size) + angularOffset( size ), 
@@ -126,6 +147,7 @@ def draw():
     drawVSegment( 0, 0, size )
     popMatrix()
 
+def drawA(xOrigin, yOrigin, size):
     #draw segment A
     pushMatrix()
     translate( xOrigin + ( 2 * angularOffset( size ) ), 
@@ -133,4 +155,130 @@ def draw():
               translateOffset( "y", yOrigin, size ) )
     drawHSegment( 0, 0, size )
     popMatrix()
-    '''
+
+
+def drawPoint(xOrigin, yOrigin, size):
+    ellipse(xOrigin, yOrigin, size, size)
+
+def drawSecondsSeperator(xOrigin, yOrigin, size):
+    verticalOffset = size * 3
+    ellipse(xOrigin, yOrigin - verticalOffset, size, size)
+    eSpace = size * 6
+    xOffset = math.tan( math.radians(8)) * eSpace
+    ellipse(xOrigin + xOffset, yOrigin - verticalOffset - eSpace, size, size)
+
+
+def drawDigit(xOrigin, yOrigin, size, digit):
+    
+    if digit == 0:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawE(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+    elif digit == 1:
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+    elif digit == 2:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawE(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    elif digit == 3:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    elif digit == 4:
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    elif digit == 5:
+        drawA(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    elif digit == 6:
+        drawA(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawE(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    elif digit == 7:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+    elif digit == 8:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawD(xOrigin, yOrigin, size)
+        drawE(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+    else:
+        drawA(xOrigin, yOrigin, size)
+        drawB(xOrigin, yOrigin, size)
+        drawC(xOrigin, yOrigin, size)
+        drawF(xOrigin, yOrigin, size)
+        drawG(xOrigin, yOrigin, size)
+
+
+def draw():
+    background(0)
+    xOrigin = 500
+    yOrigin = 550
+    size = 20
+    i = 0
+    global minInc
+    global oneMin
+    global tenSecInc
+    global tenSec
+    global secInc
+    global oneSec
+ 
+    #Zero out all the values so clock starts at 00:00.0  
+    tenthSec =  millis() % 1000
+    # tenthSec = ( 10 + startTenthSec - tenthSec ) % 10 #countdown
+    tenthSec = ( 1000 + tenthSec - startTenthSec)
+    if tenthSec >= 1000:
+        tenthSec = tenthSec - 1000
+    tenthSec  = tenthSec // 100
+    
+    #increment seconds
+    if tenthSec == secInc == 0:
+        oneSec = oneSec + 1
+        secInc = 1
+    elif tenthSec != 0:
+        secInc = 0
+
+    #increment tens of seconds
+    if oneSec == 10 and tenSecInc == 0:
+        oneSec = 0
+        tenSec = tenSec + 1
+        tenSecInc = 1
+    elif oneSec != 10:
+        tenSecInc = 0
+     
+    #increment minutes
+    if tenSec == 6 and minInc == 0:
+        oneSec = 0
+        tenSec = 0
+        oneMin = oneMin + 1
+        minInc = 1
+    elif tenSec != 6:
+        minInc = 0
+        
+    
+    drawDigit(xOrigin - 400, yOrigin, size, oneMin)
+    drawSecondsSeperator(xOrigin - 50, yOrigin, size * 2)
+    drawDigit(xOrigin, yOrigin, size, tenSec )
+    drawDigit(xOrigin + 300, yOrigin, size, oneSec )
+    drawPoint(xOrigin + 600, yOrigin, size * 2)
+    drawDigit(xOrigin + 650, yOrigin, size, tenthSec )
