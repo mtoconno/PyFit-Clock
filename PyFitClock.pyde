@@ -19,10 +19,21 @@ tenSec = 0
 #init the seconds digit
 secInc = 0
 oneSec = 0
+
+#global vars for screen size
+screenX = 0
+screenY = 0
 #end of global variables
 
+
+
 def setup():
-    size(1800, 600)
+
+    global screenX
+    global screenY
+    screenX = 2200
+    screenY = 600
+    size(2200, 600)
     global tenInc
     global oneSec
     tenInc = oneSec = 0
@@ -286,6 +297,12 @@ def draw():
         tenMinInc = 0
         
         
+    XPad = size * 18 #digit X padding
+    YPad = size * 3  #digit Y padding
+    PPad = size * 3 # . padding
+    CPad = int( size * 2.25 ) # : padding
+       
+    ''' 
     drawDigit( xOrigin - 700, yOrigin, size, tenMin )
     drawDigit( xOrigin - 400, yOrigin, size, oneMin )
     drawSecondsSeperator( xOrigin - 50, yOrigin, size * 2 )
@@ -293,3 +310,19 @@ def draw():
     drawDigit( xOrigin + 300, yOrigin, size, oneSec )
     drawPoint( xOrigin + 600, yOrigin, size * 2 )
     drawDigit( xOrigin + 650, yOrigin, size, tenthSec )
+    '''
+    
+    strokeWeight(5)
+    line(50, 100, 300, 100)
+    line(300, 100, 300, 150)
+    line(300, 150, 50, 150)
+    line(50, 150, 50, 100)
+    stroke(255, 0, 0)
+    
+    drawDigit( screenX - 5 * XPad, screenY - YPad, size, tenMin )
+    drawDigit( screenX - 4 * XPad, screenY - YPad, size, oneMin )
+    drawSecondsSeperator( screenX - 3 * XPad - CPad, screenY - YPad, size * 2 )
+    drawDigit( screenX - 3 * XPad, screenY - YPad, size, tenSec )
+    drawDigit( screenX - 2 * XPad, screenY - YPad, size, oneSec )
+    drawPoint( screenX - XPad - PPad, screenY - YPad, size * 2 )
+    drawDigit( screenX - XPad, screenY - YPad, size, tenthSec )
